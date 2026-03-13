@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mantle Yield Copilot — AI-powered DeFi assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0b0d;
+      --bg-surface: #0d0e11;
+      --bg-hover: #111318;
+      --border: #1f2025;
+      --border-hover: #2a2f38;
+      --green: #1d9e75;
+      --green-dim: #0f2e20;
+      --green-text: #4ecb9e;
+      --amber: #ef9f27;
+      --amber-dim: #1e1a10;
+      --red: #e24b4a;
+      --red-dim: #1a0e0e;
+      --purple: #7f77dd;
+      --purple-dim: #1a1a2e;
+      --pink: #d4537e;
+      --pink-dim: #1a1418;
+      --text: #e8e6e0;
+      --text-muted: #4a4f5a;
+      --text-dim: #3a3f48;
+      --font-sans: 'Syne', sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 24px;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg-surface);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark {
+      width: 26px; height: 26px;
+      background: var(--green-dim);
+      border: 0.5px solid var(--green);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-name { font-size: 14px; font-weight: 600; letter-spacing: 0.03em; }
+    .logo-sub { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+    .topbar-right { display: flex; align-items: center; gap: 14px; }
+    .pulse { width: 6px; height: 6px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .live-label { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+    .tag {
+      background: var(--green-dim); color: var(--green);
+      font-size: 10px; padding: 3px 9px; border-radius: 3px;
+      font-family: var(--font-mono); border: 0.5px solid var(--green);
+      letter-spacing: 0.08em;
+    }
+
+    /* MAIN LAYOUT */
+    .main { display: grid; grid-template-columns: 1fr 310px; }
+
+    /* LEFT */
+    .left { padding: 20px 24px; border-right: 0.5px solid var(--border); }
+    .section-label {
+      font-size: 10px; color: var(--text-muted);
+      letter-spacing: 0.12em; font-family: var(--font-mono);
+      margin-bottom: 12px;
+    }
+
+    /* METRICS */
+    .metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .metric {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+    }
+    .metric-label { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 4px; }
+    .metric-value { font-size: 22px; font-weight: 600; font-family: var(--font-mono); }
+    .metric-delta { font-size: 10px; font-family: var(--font-mono); margin-top: 3px; }
+    .up { color: var(--green); }
+    .down { color: var(--red); }
+    .warn { color: var(--amber); }
+
+    /* PROTOCOLS */
+    .protocols { display: flex; flex-direction: column; gap: 8px; }
+    .proto-card {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; align-items: center; gap: 14px;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+    .proto-card:hover { border-color: var(--border-hover); }
+    .proto-card.ai-pick { border-color: var(--green); background: #0a1810; }
+    .proto-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; flex-shrink: 0;
+      font-family: var(--font-mono);
+    }
+    .icon-pendle { background: var(--purple-dim); color: var(--purple); }
+    .icon-init { background: var(--green-dim); color: var(--green); }
+    .icon-moe { background: var(--amber-dim); color: var(--amber); }
+    .icon-lendle { background: var(--pink-dim); color: var(--pink); }
+    .proto-info { flex: 1; }
+    .proto-name { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+    .proto-desc { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+    .sparkline { display: flex; align-items: flex-end; gap: 2px; height: 20px; margin-top: 8px; }
+    .bar { width: 5px; border-radius: 1px; }
+    .proto-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+    .apy { font-size: 20px; font-weight: 600; font-family: var(--font-mono); }
+    .tvl-label { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+    .ai-badge {
+      font-size: 9px; background: var(--green-dim); color: var(--green);
+      border: 0.5px solid var(--green); border-radius: 3px;
+      padding: 2px 7px; font-family: var(--font-mono); letter-spacing: 0.06em;
+    }
+
+    /* RIGHT PANEL */
+    .right { background: var(--bg); padding: 20px 18px; display: flex; flex-direction: column; gap: 16px; }
+    .ai-panel {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: 10px; padding: 14px;
+    }
+    .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .ai-avatar {
+      width: 30px; height: 30px;
+      background: var(--green-dim); border: 0.5px solid var(--green);
+      border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    }
+    .ai-title { font-size: 13px; font-weight: 600; }
+    .ai-subtitle { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+    .ai-bubble {
+      background: #0a1810; border: 0.5px solid var(--green);
+      border-radius: 7px; padding: 12px 14px; margin-bottom: 10px;
+    }
+    .ai-bubble p { font-size: 12px; color: #c8d8c8; line-height: 1.7; }
+    .ai-bubble strong { color: var(--green-text); font-weight: 500; }
+    .action-btn {
+      width: 100%; background: transparent;
+      border: 0.5px solid var(--green); color: var(--green);
+      padding: 9px 12px; border-radius: 6px;
+      font-size: 11px; font-family: var(--font-mono);
+      cursor: pointer; letter-spacing: 0.04em;
+      text-align: left; margin-top: 6px;
+      transition: background 0.2s;
+    }
+    .action-btn:hover { background: var(--green-dim); }
+    .chat-row { display: flex; gap: 8px; margin-top: 12px; }
+    .chat-input {
+      flex: 1; background: var(--bg);
+      border: 0.5px solid var(--border); border-radius: 6px;
+      color: var(--text); font-size: 11px; padding: 8px 10px;
+      font-family: var(--font-mono); outline: none;
+      transition: border-color 0.2s;
+    }
+    .chat-input:focus { border-color: var(--green); }
+    .chat-input::placeholder { color: var(--text-dim); }
+    .send-btn {
+      background: var(--green); border: none;
+      color: #04342c; padding: 8px 14px; border-radius: 6px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      cursor: pointer; white-space: nowrap;
+    }
+
+    /* ALERTS */
+    .alerts-panel { display: flex; flex-direction: column; gap: 8px; }
+    .alert-card {
+      background: var(--bg-surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px; padding: 10px 12px;
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .alert-icon {
+      width: 22px; height: 22px; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+    }
+    .icon-green { background: var(--green-dim); color: var(--green); }
+    .icon-amber { background: var(--amber-dim); color: var(--amber); }
+    .icon-red { background: var(--red-dim); color: var(--red); }
+    .alert-body { font-size: 11px; color: #8a8f9a; font-family: var(--font-mono); line-height: 1.5; }
+    .alert-body b { color: var(--text); font-weight: 500; }
+    .alert-time { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+
+    @media (max-width: 720px) {
+      .main { grid-template-columns: 1fr; }
+      .left { border-right: none; border-bottom: 0.5px solid var(--border); }
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2 12L7 2L12 12" stroke="#1d9e75" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.5 8.5H9.5" stroke="#1d9e75" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">Mantle Yield Copilot</div>
+        <div class="logo-sub">AI-powered DeFi assistant</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span><span class="pulse"></span><span class="live-label">live data</span></span>
+      <span class="tag">MAINNET</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="main">
+
+    <!-- LEFT -->
+    <div class="left">
+
+      <div class="section-label">NETWORK OVERVIEW</div>
+      <div class="metrics-row">
+        <div class="metric">
+          <div class="metric-label">total tvl</div>
+          <div class="metric-value">$842M</div>
+          <div class="metric-delta up">+3.2% 24h</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">avg apy</div>
+          <div class="metric-value">11.4%</div>
+          <div class="metric-delta up">+0.8% 24h</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">ai alerts</div>
+          <div class="metric-value">3</div>
+          <div class="metric-delta down">2 urgent</div>
+        </div>
+      </div>
+
+      <div class="section-label">PROTOCOLS · MANTLE ECOSYSTEM</div>
+      <div class="protocols">
+
+        <div class="proto-card ai-pick">
+          <div class="proto-icon icon-pendle">PE</div>
+          <div class="proto-info">
+            <div class="proto-name">Pendle Finance</div>
+            <div class="proto-desc">mETH yield tokenization</div>
+            <div class="sparkline" id="spark-pendle"></div>
+          </div>
+          <div class="proto-right">
+            <div class="apy up">18.4%</div>
+            <div class="tvl-label">TVL $210M</div>
+            <div class="ai-badge">AI PICK</div>
+          </div>
+        </div>
+
+        <div class="proto-card">
+          <div class="proto-icon icon-init">IN</div>
+          <div class="proto-info">
+            <div class="proto-name">INIT Capital</div>
+            <div class="proto-desc">Lending · mETH collateral</div>
+            <div class="sparkline" id="spark-init"></div>
+          </div>
+          <div class="proto-right">
+            <div class="apy up">9.7%</div>
+            <div class="tvl-label">TVL $180M</div>
+          </div>
+        </div>
+
+        <div class="proto-card">
+          <div class="proto-icon icon-moe">MM</div>
+          <div class="proto-info">
+            <div class="proto-name">Merchant Moe</div>
+            <div class="proto-desc">AMM liquidity pools</div>
+            <div class="sparkline" id="spark-moe"></div>
+          </div>
+          <div class="proto-right">
+            <div class="apy warn">8.1%</div>
+            <div class="tvl-label">TVL $145M</div>
+          </div>
+        </div>
+
+        <div class="proto-card">
+          <div class="proto-icon icon-lendle">LE</div>
+          <div class="proto-info">
+            <div class="proto-name">Lendle</div>
+            <div class="proto-desc">Money market · variable rate</div>
+            <div class="sparkline" id="spark-lendle"></div>
+          </div>
+          <div class="proto-right">
+            <div class="apy warn">6.3%</div>
+            <div class="tvl-label">TVL $98M</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+      <div>
+        <div class="section-label" style="margin-bottom:10px">AI COPILOT</div>
+        <div class="ai-panel">
+          <div class="ai-header">
+            <div class="ai-avatar">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle cx="7" cy="7" r="5.5" stroke="#1d9e75" stroke-width="1"/>
+                <circle cx="7" cy="7" r="2" fill="#1d9e75"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ai-title">Copilot</div>
+              <div class="ai-subtitle">yield intelligence</div>
+            </div>
+          </div>
+          <div class="ai-bubble">
+            <p><strong>Rebalance opportunity detected.</strong> Pendle mETH PT yield rose +3.1% in last 6h — now at 18.4%. Your current INIT position (9.7%) could be partially migrated for improved risk-adjusted return.</p>
+          </div>
+          <button class="action-btn">Explain migration steps →</button>
+          <button class="action-btn">Assess risk factors →</button>
+          <div class="chat-row">
+            <input class="chat-input" type="text" placeholder="Ask about any Mantle protocol..." />
+            <button class="send-btn">Ask →</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-bottom:10px">RECENT ALERTS</div>
+        <div class="alerts-panel">
+          <div class="alert-card">
+            <div class="alert-icon icon-green">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 5l2.5 2.5L8 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="alert-body"><b>Pendle yield spike</b> — mETH PT rate up 3.1% in 6h</div>
+              <div class="alert-time">2 min ago</div>
+            </div>
+          </div>
+          <div class="alert-card">
+            <div class="alert-icon icon-amber">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M5 2v4M5 7.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="alert-body"><b>Merchant Moe TVL</b> down 8.4% — monitor liquidity</div>
+              <div class="alert-time">18 min ago</div>
+            </div>
+          </div>
+          <div class="alert-card">
+            <div class="alert-icon icon-red">
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="alert-body"><b>Lendle utilization</b> at 91% — elevated rate risk</div>
+              <div class="alert-time">1h ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function buildSparkline(id, values, color) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const max = Math.max(...values);
+    values.forEach((v, i) => {
+      const bar = document.createElement('div');
+      bar.className = 'bar';
+      const h = Math.round((v / max) * 20);
+      bar.style.cssText = `height:${h}px;background:${color};opacity:${i === values.length - 1 ? 1 : 0.3 + (i / values.length) * 0.5}`;
+      el.appendChild(bar);
+    });
+  }
+  buildSparkline('spark-pendle', [9,11,10,12,14,16,18], '#1d9e75');
+  buildSparkline('spark-init',   [9,9,10,9,10,9,10],   '#1d9e75');
+  buildSparkline('spark-moe',    [12,10,9,11,10,11,10], '#ef9f27');
+  buildSparkline('spark-lendle', [8,9,8,7,7,6,7],      '#d4537e');
+</script>
+</body>
+</html>
