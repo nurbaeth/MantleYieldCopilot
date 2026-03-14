@@ -11,7 +11,7 @@
 <div align="center">
 
 ![Mantle](https://img.shields.io/badge/Built%20on-Mantle-1d9e75?style=flat-square&logoColor=white) 
-![Status](https://img.shields.io/badge/Status-Concept-ef9f27?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Concept-ef9f27?style=flat-square) 
 ![License](https://img.shields.io/badge/License-MIT-4a4f5a?style=flat-square)
 ![Bounty](https://img.shields.io/badge/Mantle%20Bounty-Topic%202-7f77dd?style=flat-square)
 
