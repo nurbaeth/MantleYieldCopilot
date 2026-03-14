@@ -15,7 +15,7 @@
 ![License](https://img.shields.io/badge/License-MIT-4a4f5a?style=flat-square)  
 ![Bounty](https://img.shields.io/badge/Mantle%20Bounty-Topic%202-7f77dd?style=flat-square) 
 
-**An AI agent that monitors yield opportunities across the Mantle DeFi ecosystem in real time — and tells you when to move.**
+**An AI agent that monitors yield opportunities across the Mantle DeFi ecosystem in real time — and tells you when to move.** 
 
 [Live Demo](./index.html) · [Concept Brief](#concept) · [How It Works](#how-it-works) · [Mantle Integration](#mantle-integration)
 
