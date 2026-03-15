@@ -124,7 +124,7 @@ The mockup demonstrates the core UX:
 
 ---
 
-## Why AI + Mantle
+## Why AI + Mantle 
 
 The combination of Mantle's growing DeFi ecosystem and AI's pattern-recognition capability creates a genuine edge:
 
