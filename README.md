@@ -22,7 +22,7 @@
 </div>
   
 ---  
-
+ 
 ## The Problem 
  
 DeFi on Mantle is fast. APYs shift overnight. TVL moves without warning. Utilization rates spike before you notice. 
