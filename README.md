@@ -18,7 +18,7 @@
 **An AI agent that monitors yield opportunities across the Mantle DeFi ecosystem in real time — and tells you when to move.** 
 
 [Live Demo](./index.html) · [Concept Brief](#concept) · [How It Works](#how-it-works) · [Mantle Integration](#mantle-integration)
-
+ 
 </div>
 
 --- 
