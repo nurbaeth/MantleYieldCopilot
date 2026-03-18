@@ -25,7 +25,7 @@
  
 ## The Problem  
   
-DeFi on Mantle is fast. APYs shift overnight. TVL moves without warning. Utilization rates spike before you notice. 
+DeFi on Mantle is fast. APYs shift overnight. TVL moves without warning. Utilization rates spike before you notice.  
 
 Most users track 5–10 protocols manually — checking dashboards, reading Twitter, refreshing DefiLlama. By the time they spot an opportunity, it's already gone. 
 
