@@ -28,7 +28,7 @@
 DeFi on Mantle is fast. APYs shift overnight. TVL moves without warning. Utilization rates spike before you notice.   
  
 Most users track 5–10 protocols manually — checking dashboards, reading Twitter, refreshing DefiLlama. By the time they spot an opportunity, it's already gone.  
-
+ 
 ``` 
 Pendle mETH PT yield: +3.1% in 6 hours  →  most users missed it
 Lendle utilization:    91%               →  rate risk invisible until too late
