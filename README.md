@@ -42,7 +42,7 @@ Merchant Moe TVL:     -8.4% overnight   →  exit window already closed
 ## Concept 
 
 > One AI agent. All Mantle protocols. Zero dashboard fatigue.
-
+ 
 Mantle Yield Copilot is a proposed AI-powered tool that: 
 
 - **Indexes** live on-chain data from Pendle, INIT Capital, Merchant Moe, Lendle, and other Mantle protocols
