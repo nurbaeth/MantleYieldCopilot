@@ -35,7 +35,7 @@ Lendle utilization:    91%               →  rate risk invisible until too late
 Merchant Moe TVL:     -8.4% overnight   →  exit window already closed
 ```
 
-**Mantle Yield Copilot solves this.**
+**Mantle Yield Copilot solves this.** 
 
 ---
 
