@@ -19,8 +19,8 @@
 
 [Live Demo](./index.html) · [Concept Brief](#concept) · [How It Works](#how-it-works) · [Mantle Integration](#mantle-integration)
  
-</div>
-  
+</div> 
+   
 ---  
  
 ## The Problem   
