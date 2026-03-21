@@ -39,7 +39,7 @@ Merchant Moe TVL:     -8.4% overnight   →  exit window already closed
 
 ---
 
-## Concept 
+## Concept  
 
 > One AI agent. All Mantle protocols. Zero dashboard fatigue.
  
