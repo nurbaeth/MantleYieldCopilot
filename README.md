@@ -50,7 +50,7 @@ Mantle Yield Copilot is a proposed AI-powered tool that:
 - **Generates** plain-English alerts with specific rebalance recommendations
 - **Explains** migration steps and risk factors on demand
 
-No spreadsheets. No constant monitoring. Just an AI that watches Mantle for you.
+No spreadsheets. No constant monitoring. Just an AI that watches Mantle for you. 
 
 ---
 
