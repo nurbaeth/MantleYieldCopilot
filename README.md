@@ -31,7 +31,7 @@ Most users track 5–10 protocols manually — checking dashboards, reading Twit
  
 ```  
 Pendle mETH PT yield: +3.1% in 6 hours  →  most users missed it
-Lendle utilization:    91%               →  rate risk invisible until too late
+Lendle utilization:    91%              →  rate risk invisible until too late
 Merchant Moe TVL:     -8.4% overnight   →  exit window already closed
 ```
 
